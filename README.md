@@ -245,7 +245,7 @@
           "
         >
           <i class="fas fa-map-marker-alt mr-2"></i>
-          Localização no Google Maps
+          Siga no Google Maps 2.1M views
         </a>
       </div>
     </div>
