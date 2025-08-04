@@ -119,8 +119,6 @@
       100% { transform: scale(1);   opacity: .9; }
     }
 
-    / Removido: pulseSVG, .pulse e .pulse-delay /
-
     @media (min-width: 640px) {
       h1 { font-size: 3rem; }
       p  { font-size: 1.125rem; }
@@ -235,6 +233,19 @@
         >
           <i class="fab fa-whatsapp mr-2"></i>
           WhatsApp: (31) 99596-1304
+        </a>
+        <a
+          href="https://maps.app.goo.gl/fGRKS7cVt4SG5rxW9?g_st=ac"
+          target="_blank"
+          class="
+            cta-button whitespace-nowrap inline-flex items-center
+            bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700
+            px-4 sm:px-6 md:px-8
+            py-2 sm:py-3 md:py-4
+          "
+        >
+          <i class="fas fa-map-marker-alt mr-2"></i>
+          Localização no Google Maps
         </a>
       </div>
     </div>
