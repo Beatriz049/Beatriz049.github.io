@@ -257,7 +257,7 @@
           "
         >
           <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
-          Siga no Google Maps
+          Siga no Google Maps 2.1M views
         </a>
       </div>
     </div>
