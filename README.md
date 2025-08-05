@@ -151,7 +151,7 @@
 
   <div class="container">
     <div class="logo-container">
-      <img src="logo.jpeg" alt="logo pafcs data solutions" class="logo" />
+      <img src="Logo.jpeg" alt="Logo PAFCS Data Solutions" class="logo" />
       <div class="flex items-center gap-2">
         <span class="gradient-title">IA para Todos!</span>
         <svg
@@ -281,7 +281,6 @@
 
       function setupAnimation() {
         data = circles.map((c, i) => {
-          // *** ALTERAÇÃO AQUI: Reduzido o multiplicador para um tamanho inicial menor ***
           const initR = initialRadii[i] * 0.6; 
           
           return {
