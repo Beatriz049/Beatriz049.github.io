@@ -252,49 +252,56 @@
   </div>
 
   <!-- Script de animação das bolhas -->
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const svg = document.querySelector('svg.background-svg');
-      const circles = Array.from(svg.querySelectorAll('circle'));
-      const vw = window.innerWidth;
-      const vh = window.innerHeight;
-      const data = circles.map((c) => {
-        const initR = parseFloat(c.getAttribute('r'));
-        return {
-          el: c,
-          x: +c.getAttribute('cx'),
-          y: +c.getAttribute('cy'),
-          r: initR,
-          vx: (Math.random()  0.6 + 0.4)  (Math.random() < 0.5 ? -1 : 1),
-          vy: (Math.random()  0.6 + 0.4)  (Math.random() < 0.5 ? -1 : 1),
-          vr: Math.random() * 0.1 + 0.05,
-          rMin: initR * 0.8,
-          rMax: initR * 1.2
-        };
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const svg = document.querySelector('svg.background-svg');
+    const circles = Array.from(svg.querySelectorAll('circle'));
+    let vw = window.innerWidth;
+    let vh = window.innerHeight;
+
+    window.addEventListener('resize', () => {
+      vw = window.innerWidth;
+      vh = window.innerHeight;
+    });
+
+    const data = circles.map((c) => {
+      const initR = parseFloat(c.getAttribute('r'));
+      return {
+        el: c,
+        x: +c.getAttribute('cx'),
+        y: +c.getAttribute('cy'),
+        r: initR,
+        vx: (Math.random() * 0.35 + 0.15) * (Math.random() < 0.5 ? -1 : 1),
+        vy: (Math.random() * 0.35 + 0.15) * (Math.random() < 0.5 ? -1 : 1),
+        vr: (Math.random() * 0.06 + 0.02) * (Math.random() < 0.5 ? -1 : 1),
+        rMin: initR * 0.85,
+        rMax: initR * 1.13
+      };
+    });
+
+    function animate() {
+      data.forEach((d) => {
+        d.x += d.vx;
+        d.y += d.vy;
+        d.r += d.vr;
+
+        if (d.x - d.r < 0 || d.x + d.r > vw) d.vx *= -1;
+        if (d.y - d.r < 0 || d.y + d.r > vh) d.vy *= -1;
+        if (d.r < d.rMin || d.r > d.rMax) d.vr *= -1;
+
+        d.el.setAttribute('cx', d.x);
+        d.el.setAttribute('cy', d.y);
+        d.el.setAttribute('r', d.r);
       });
 
-      function animate() {
-        data.forEach((d) => {
-          d.x += d.vx;
-          d.y += d.vy;
-          d.r += d.vr;
+      requestAnimationFrame(animate);
+    }
 
-          if (d.x - d.r < 0 || d.x + d.r > vw) d.vx *= -1;
-          if (d.y - d.r < 0 || d.y + d.r > vh) d.vy *= -1;
-          if (d.r < d.rMin || d.r > d.rMax) d.vr *= -1;
-
-          d.el.setAttribute('cx', d.x);
-          d.el.setAttribute('cy', d.y);
-          d.el.setAttribute('r', d.r);
-        });
-
-        requestAnimationFrame(animate);
-      }
-
-      animate();
-    });
-  </script>
+    animate();
+  });
+</script>
 </body>
 </html>
+
 
 
