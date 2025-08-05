@@ -292,8 +292,7 @@
           vx: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
           vy: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
           vr: (Math.random() * 0.03 + 0.015) * (Math.random() < 0.5 ? -1 : 1),
-          // --- ALTERAÇÃO FEITA AQUI ---
-          rmin: initR * 0.70, // Encolhe até 70% do tamanho
+          rmin: initR * 0.40, // Encolhe até 40% do tamanho
           rmax: initR * 1.30  // Cresce até 130% do tamanho
         };
       });
