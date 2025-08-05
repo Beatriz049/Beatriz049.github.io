@@ -138,7 +138,7 @@
 </head>
 
 <body>
-<svg
+  <svg
   class="background-svg"
   viewbox="0 0 1440 800"
   preserveAspectRatio="xMidYMid slice"
@@ -196,7 +196,7 @@
     </p>
 
     <a
-      href="https://forms.gle/pcst1sdpba7duqk57"
+      href="https://docs.google.com/forms/d/e/1FAIpQLSe06z5uT5-370Z499SEDF6AGCiKJO5PMu0mgzrbsUV3xnBgPw/viewform?usp=header"
       target="_blank"
       class="
         cta-button whitespace-nowrap inline-flex justify-center
@@ -245,7 +245,7 @@
           (31) 99596-1304
         </a>
         <a
-          href="https://maps.app.goo.gl/fGRKS7cVt4SG5rxW9?g_st=ac"
+          href="https://maps.app.goo.gl/MBw33ycAyvB71oaY7?g_st=ac"
           target="_blank"
           class="
             contact-button
@@ -257,13 +257,13 @@
           "
         >
           <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
-          Siga no Google Maps 2.1M views
+          Siga no Google Maps
         </a>
       </div>
     </div>
   </div>
 
-  <script>
+ <script>
   document.addEventListener('DOMContentLoaded', () => {
     const svg = document.querySelector('svg.background-svg');
     const circles = Array.from(svg.querySelectorAll('circle'));
