@@ -215,7 +215,7 @@
           "
         >
           <i class="fab fa-instagram mr-2"></i>
-          Instagram: @PAFCS Data Solutions
+          @PAFCS Data Solutions
         </a>
         <a
           href="https://wa.me/message/Q6WEGQK3HVJ7N1"
@@ -229,7 +229,7 @@
           "
         >
           <i class="fab fa-whatsapp mr-2"></i>
-          WhatsApp: (31) 99596-1304
+          (31) 99596-1304
         </a>
         <a
           href="https://maps.app.goo.gl/fGRKS7cVt4SG5rxW9?g_st=ac"
