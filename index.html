@@ -256,71 +256,66 @@
 document.addEventListener('DOMContentLoaded', () => {
   const svg = document.querySelector('svg.background-svg');
   const circles = Array.from(svg.querySelectorAll('circle'));
+  
+  // As dimensões do nosso "mundo" são as do viewBox.
+  const viewBox = svg.viewBox.baseVal;
 
-  function getSVGSize() {
-    return {
-      width: svg.clientWidth,
-      height: svg.clientHeight
-    };
-  }
-
-  function mapToCurrentSize(origX, origY) {
-    // Proporção entre o viewBox e o SVG exibido
-    const vb = svg.viewBox.baseVal;
-    const { width, height } = getSVGSize();
-    return {
-      x: origX / vb.width * width,
-      y: origY / vb.height * height
-    };
-  }
-
-  // Defina as posições iniciais com base no viewBox
-  const origPositions = [
+  // As posições e raios iniciais já estão corretos neste sistema.
+  const initialPositions = [
     { x: 280,  y: 280 },  // azul
     { x: 1160, y: 280 },  // vermelha
     { x: 280,  y: 520 },  // amarela
     { x: 1160, y: 520 }   // verde
   ];
-  const origRadii = [280, 280, 280, 280];
+  const initialRadii = [280, 280, 280, 280];
 
   let data = [];
 
-  function resetData() {
-    const { width, height } = getSVGSize();
-    const vb = svg.viewBox.baseVal;
+  function setupAnimation() {
+    // Não precisamos mais recalcular tudo no resize, pois o viewBox não muda.
+    // O SVG se encarrega do escalonamento visual.
     data = circles.map((c, i) => {
-      // Mapear posição inicial para o tamanho atual do SVG
-      const mapped = mapToCurrentSize(origPositions[i].x, origPositions[i].y);
-      const initR = origRadii[i] / vb.width * width * 0.7; // ajuste para não ficar gigante no mobile
+      // O raio inicial pode ser um pouco menor para um efeito visual melhor.
+      const initR = initialRadii[i] * 0.7; 
+      
       return {
         el: c,
-        x: mapped.x,
-        y: mapped.y,
+        x: initialPositions[i].x,
+        y: initialPositions[i].y,
         r: initR,
-        vx: (Math.random() * 0.8 + 0.5) * (Math.random() < 0.5 ? -1 : 1),
-        vy: (Math.random() * 0.7 + 0.3) * (Math.random() < 0.5 ? -1 : 1),
-        vr: (Math.random() * 0.06 + 0.02) * (Math.random() < 0.5 ? -1 : 1),
+        // As velocidades precisam ser ajustadas para a escala do viewBox.
+        // Valores entre 1 e 3 costumam funcionar bem para um viewBox largo.
+        vx: (Math.random() * 2 + 1) * (Math.random() < 0.5 ? -1 : 1),
+        vy: (Math.random() * 2 + 1) * (Math.random() < 0.5 ? -1 : 1),
+        // A velocidade do raio também pode ser ajustada.
+        vr: (Math.random() * 0.1 + 0.05) * (Math.random() < 0.5 ? -1 : 1),
         rMin: initR * 0.85,
         rMax: initR * 1.13
       };
     });
   }
 
-  window.addEventListener('resize', resetData);
-  resetData();
+  // A função de setup só precisa rodar uma vez.
+  setupAnimation();
 
   function animate() {
-    const { width, height } = getSVGSize();
     data.forEach((d) => {
       d.x += d.vx;
       d.y += d.vy;
       d.r += d.vr;
 
-      // Rebater nas bordas do SVG real
-      if (d.x - d.r < 0 || d.x + d.r > width) d.vx *= -1;
-      if (d.y - d.r < 0 || d.y + d.r > height) d.vy *= -1;
-      if (d.r < d.rMin || d.r > d.rMax) d.vr *= -1;
+      // Rebater nas bordas do viewBox.
+      if (d.x - d.r < viewBox.x || d.x + d.r > viewBox.width) {
+        d.vx *= -1;
+      }
+      if (d.y - d.r < viewBox.y || d.y + d.r > viewBox.height) {
+        d.vy *= -1;
+      }
+      if (d.r < d.rMin || d.r > d.rMax) {
+        d.vr *= -1;
+      }
 
+      // Os valores já estão no sistema de coordenadas correto.
       d.el.setAttribute('cx', d.x);
       d.el.setAttribute('cy', d.y);
       d.el.setAttribute('r', d.r);
