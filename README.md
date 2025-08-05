@@ -27,7 +27,7 @@
       min-height: 100vh;
       margin: 0;
       padding: 0;
-      background-color: #fff;
+      background-color: #F5F5DC;
       font-family: 'Poppins', sans-serif;
       overflow-x: hidden;
     }
