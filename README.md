@@ -253,52 +253,84 @@
 
   <!-- Script de animação das bolhas -->
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const svg = document.querySelector('svg.background-svg');
-    const circles = Array.from(svg.querySelectorAll('circle'));
-    let vw = window.innerWidth;
-    let vh = window.innerHeight;
+document.addEventListener('DOMContentLoaded', () => {
+  const svg = document.querySelector('svg.background-svg');
+  const circles = Array.from(svg.querySelectorAll('circle'));
 
-    window.addEventListener('resize', () => {
-      vw = window.innerWidth;
-      vh = window.innerHeight;
-    });
+  function getSVGSize() {
+    return {
+      width: svg.clientWidth,
+      height: svg.clientHeight
+    };
+  }
 
-    const data = circles.map((c) => {
-      const initR = parseFloat(c.getAttribute('r'));
+  function mapToCurrentSize(origX, origY) {
+    // Proporção entre o viewBox e o SVG exibido
+    const vb = svg.viewBox.baseVal;
+    const { width, height } = getSVGSize();
+    return {
+      x: origX / vb.width * width,
+      y: origY / vb.height * height
+    };
+  }
+
+  // Defina as posições iniciais com base no viewBox
+  const origPositions = [
+    { x: 280,  y: 280 },  // azul
+    { x: 1160, y: 280 },  // vermelha
+    { x: 280,  y: 520 },  // amarela
+    { x: 1160, y: 520 }   // verde
+  ];
+  const origRadii = [280, 280, 280, 280];
+
+  let data = [];
+
+  function resetData() {
+    const { width, height } = getSVGSize();
+    const vb = svg.viewBox.baseVal;
+    data = circles.map((c, i) => {
+      // Mapear posição inicial para o tamanho atual do SVG
+      const mapped = mapToCurrentSize(origPositions[i].x, origPositions[i].y);
+      const initR = origRadii[i] / vb.width * width * 0.7; // ajuste para não ficar gigante no mobile
       return {
         el: c,
-        x: +c.getAttribute('cx'),
-        y: +c.getAttribute('cy'),
+        x: mapped.x,
+        y: mapped.y,
         r: initR,
-        vx: (Math.random() * 0.35 + 0.15) * (Math.random() < 0.5 ? -1 : 1),
-        vy: (Math.random() * 0.35 + 0.15) * (Math.random() < 0.5 ? -1 : 1),
+        vx: (Math.random() * 0.8 + 0.5) * (Math.random() < 0.5 ? -1 : 1),
+        vy: (Math.random() * 0.7 + 0.3) * (Math.random() < 0.5 ? -1 : 1),
         vr: (Math.random() * 0.06 + 0.02) * (Math.random() < 0.5 ? -1 : 1),
         rMin: initR * 0.85,
         rMax: initR * 1.13
       };
     });
+  }
 
-    function animate() {
-      data.forEach((d) => {
-        d.x += d.vx;
-        d.y += d.vy;
-        d.r += d.vr;
+  window.addEventListener('resize', resetData);
+  resetData();
 
-        if (d.x - d.r < 0 || d.x + d.r > vw) d.vx *= -1;
-        if (d.y - d.r < 0 || d.y + d.r > vh) d.vy *= -1;
-        if (d.r < d.rMin || d.r > d.rMax) d.vr *= -1;
+  function animate() {
+    const { width, height } = getSVGSize();
+    data.forEach((d) => {
+      d.x += d.vx;
+      d.y += d.vy;
+      d.r += d.vr;
 
-        d.el.setAttribute('cx', d.x);
-        d.el.setAttribute('cy', d.y);
-        d.el.setAttribute('r', d.r);
-      });
+      // Rebater nas bordas do SVG real
+      if (d.x - d.r < 0 || d.x + d.r > width) d.vx *= -1;
+      if (d.y - d.r < 0 || d.y + d.r > height) d.vy *= -1;
+      if (d.r < d.rMin || d.r > d.rMax) d.vr *= -1;
 
-      requestAnimationFrame(animate);
-    }
+      d.el.setAttribute('cx', d.x);
+      d.el.setAttribute('cy', d.y);
+      d.el.setAttribute('r', d.r);
+    });
 
-    animate();
-  });
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+});
 </script>
 </body>
 </html>
