@@ -5,13 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IA para Todos!</title>
 
-  <!-- Font Awesome -->
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
   />
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -19,7 +17,6 @@
     rel="stylesheet"
   />
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -131,7 +128,6 @@
 </head>
 
 <body>
-  <!-- Fundo animado -->
   <svg
   class="background-svg"
   viewBox="0 0 1440 800"
@@ -143,7 +139,6 @@
     <circle cx="1160" cy="520" r="280" fill="#15803d" />
   </svg>
 
-  <!-- Conteúdo principal -->
   <div class="container">
     <div class="logo-container">
       <img src="Logo.jpeg" alt="Logo PAFCS Data Solutions" class="logo" />
@@ -212,7 +207,8 @@
           href="https://www.instagram.com/pafcsdatasolutions"
           target="_blank"
           class="
-            cta-button whitespace-nowrap inline-flex items-center
+            text-white rounded-full font-bold text-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl
+            whitespace-nowrap inline-flex items-center
             bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700
             px-4 sm:px-6 md:px-8
             py-2 sm:py-3 md:py-4
@@ -225,7 +221,8 @@
           href="https://wa.me/message/Q6WEGQK3HVJ7N1"
           target="_blank"
           class="
-            cta-button whitespace-nowrap inline-flex items-center
+            text-white rounded-full font-bold text-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl
+            whitespace-nowrap inline-flex items-center
             bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700
             px-4 sm:px-6 md:px-8
             py-2 sm:py-3 md:py-4
@@ -238,7 +235,8 @@
           href="https://maps.app.goo.gl/fGRKS7cVt4SG5rxW9?g_st=ac"
           target="_blank"
           class="
-            cta-button whitespace-nowrap inline-flex items-center
+            text-white rounded-full font-bold text-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl
+            whitespace-nowrap inline-flex items-center
             bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700
             px-4 sm:px-6 md:px-8
             py-2 sm:py-3 md:py-4
@@ -251,12 +249,11 @@
     </div>
   </div>
 
-  <!-- Script de animação das bolhas -->
-<script>
+  <script>
 document.addEventListener('DOMContentLoaded', () => {
   const svg = document.querySelector('svg.background-svg');
   const circles = Array.from(svg.querySelectorAll('circle'));
-  
+
   // As dimensões do nosso "mundo" são as do viewBox.
   const viewBox = svg.viewBox.baseVal;
 
@@ -277,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
     data = circles.map((c, i) => {
       // O raio inicial pode ser um pouco menor para um efeito visual melhor.
       const initR = initialRadii[i] * 0.7; 
-      
+
       return {
         el: c,
         x: initialPositions[i].x,
@@ -329,6 +326,3 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 </body>
 </html>
-
-
-
