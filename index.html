@@ -85,6 +85,16 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
+    /* Estilo para os botões de contato */
+    .contact-button {
+      transition: all 0.3s ease-in-out;
+    }
+    .contact-button:hover {
+       transform: translateY(-2px);
+       box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+
+
     .logo-container {
       display: flex;
       align-items: center;
@@ -207,42 +217,45 @@
           href="https://www.instagram.com/pafcsdatasolutions"
           target="_blank"
           class="
-            text-white rounded-full font-bold text-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl
+            contact-button
+            text-white rounded-full font-bold text-lg shadow-lg
             whitespace-nowrap inline-flex items-center
             bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700
             px-4 sm:px-6 md:px-8
             py-2 sm:py-3 md:py-4
           "
         >
-          <i class="fab fa-instagram mr-2"></i>
+          <i class="fab fa-instagram mr-2" aria-hidden="true"></i>
           @PAFCS Data Solutions
         </a>
         <a
           href="https://wa.me/message/Q6WEGQK3HVJ7N1"
           target="_blank"
           class="
-            text-white rounded-full font-bold text-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl
+            contact-button
+            text-white rounded-full font-bold text-lg shadow-lg
             whitespace-nowrap inline-flex items-center
             bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700
             px-4 sm:px-6 md:px-8
             py-2 sm:py-3 md:py-4
           "
         >
-          <i class="fab fa-whatsapp mr-2"></i>
+          <i class="fab fa-whatsapp mr-2" aria-hidden="true"></i>
           (31) 99596-1304
         </a>
         <a
           href="https://maps.app.goo.gl/fGRKS7cVt4SG5rxW9?g_st=ac"
           target="_blank"
           class="
-            text-white rounded-full font-bold text-lg shadow-lg transition-all duration-300 ease-in-out hover:shadow-xl
+            contact-button
+            text-white rounded-full font-bold text-lg shadow-lg
             whitespace-nowrap inline-flex items-center
             bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700
             px-4 sm:px-6 md:px-8
             py-2 sm:py-3 md:py-4
           "
         >
-          <i class="fas fa-map-marker-alt mr-2"></i>
+          <i class="fas fa-map-marker-alt mr-2" aria-hidden="true"></i>
           Siga no Google Maps 2.1M views
         </a>
       </div>
