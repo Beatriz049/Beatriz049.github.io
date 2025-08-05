@@ -263,69 +263,71 @@
     </div>
   </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const svg = document.querySelector('svg.background-svg');
-      const circles = Array.from(svg.querySelectorAll('circle'));
+ <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const svg = document.querySelector('svg.background-svg');
+    const circles = Array.from(svg.querySelectorAll('circle'));
 
-      const viewbox = svg.viewBox.baseVal;
+    const viewbox = svg.viewBox.baseVal;
 
-      const initialPositions = [
-        { x: 280,  y: 280 },
-        { x: 1160, y: 280 },
-        { x: 280,  y: 520 },
-        { x: 1160, y: 520 }
-      ];
-      const initialRadii = [280, 280, 280, 280];
+    const initialPositions = [
+      { x: 280,  y: 280 },
+      { x: 1160, y: 280 },
+      { x: 280,  y: 520 },
+      { x: 1160, y: 520 }
+    ];
+    const initialRadii = [280, 280, 280, 280];
 
-      let data = [];
+    let data = [];
 
-      function setupAnimation() {
-        data = circles.map((c, i) => {
-          const initR = initialRadii[i] * 0.6; 
-          
-          return {
-            el: c,
-            x: initialPositions[i].x,
-            y: initialPositions[i].y,
-            r: initR,
-            vx: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
-            vy: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
-            vr: (Math.random() * 0.03 + 0.015) * (Math.random() < 0.5 ? -1 : 1),
-            rmin: initR * 0.90,
-            rmax: initR * 1.10
-          };
-        });
-      }
+    function setupAnimation() {
+      data = circles.map((c, i) => {
+        const initR = initialRadii[i] * 0.6; 
 
-      setupAnimation();
+        return {
+          el: c,
+          x: initialPositions[i].x,
+          y: initialPositions[i].y,
+          r: initR,
+          vx: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
+          vy: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
+          vr: (Math.random() * 0.03 + 0.015) * (Math.random() < 0.5 ? -1 : 1),
+          // --- ALTERAÇÃO FEITA AQUI ---
+          rmin: initR * 0.70, // Encolhe até 70% do tamanho
+          rmax: initR * 1.30  // Cresce até 130% do tamanho
+        };
+      });
+    }
 
-      function animate() {
-        data.forEach((d) => {
-          d.x += d.vx;
-          d.y += d.vy;
-          d.r += d.vr;
+    setupAnimation();
 
-          if (d.x - d.r < viewbox.x || d.x + d.r > viewbox.width) {
-            d.vx *= -1;
-          }
-          if (d.y - d.r < viewbox.y || d.y + d.r > viewbox.height) {
-            d.vy *= -1;
-          }
-          if (d.r < d.rmin || d.r > d.rmax) {
-            d.vr *= -1;
-          }
+    function animate() {
+      data.forEach((d) => {
+        d.x += d.vx;
+        d.y += d.vy;
+        d.r += d.vr;
 
-          d.el.setAttribute('cx', d.x);
-          d.el.setAttribute('cy', d.y);
-          d.el.setAttribute('r', d.r);
-        });
+        if (d.x - d.r < viewbox.x || d.x + d.r > viewbox.width) {
+          d.vx *= -1;
+        }
+        if (d.y - d.r < viewbox.y || d.y + d.r > viewbox.height) {
+          d.vy *= -1;
+        }
+        if (d.r < d.rmin || d.r > d.rmax) {
+          d.vr *= -1;
+        }
 
-        requestAnimationFrame(animate);
-      }
+        d.el.setAttribute('cx', d.x);
+        d.el.setAttribute('cy', d.y);
+        d.el.setAttribute('r', d.r);
+      });
 
-      animate();
-    });
-  </script>
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  });
+</script>
+
 </body>
 </html>
