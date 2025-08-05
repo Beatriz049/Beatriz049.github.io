@@ -230,7 +230,7 @@
           @PAFCS Data Solutions
         </a>
         <a
-          href="https://wa.me/message/q6wegqk3hvj7n1"
+          href="https://wa.me/message/Q6WEGQK3HVJ7N1"
           target="_blank"
           class="
             contact-button
