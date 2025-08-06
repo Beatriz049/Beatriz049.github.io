@@ -186,10 +186,16 @@
       Queremos construir a melhor solução de automação para o seu negócio e a sua
       participação é essencial nesse processo.
     </p>
-    <p>
-      Suas experiências e desafios nos ajudarão a criar algo realmente útil e
-      alinhado com as suas necessidades diárias.
-    </p>
+
+    <div class="my-6 text-left p-4 bg-blue-50 border-l-4 border-blue-500 rounded-r-lg">
+      <h2 class="text-lg font-bold text-blue-800 flex items-center">
+        <i class="fas fa-rocket mr-2"></i>
+        Uma prévia do nosso Ecossistema de IA!
+      </h2>
+      <p class="text-base text-gray-700 mt-2">
+        Para dar um gostinho do futuro, criamos nosso primeiro assistente no Telegram. É uma amostra de como a inteligência artificial pode facilitar seu dia a dia. Convidamos você a testá-lo!
+      </p>
+    </div>
     <p class="mt-8 mb-8 text-xl font-semibold">
       Para compartilhar suas ideias e nos ajudar a moldar o futuro da nossa
       solução, clique no botão abaixo:
@@ -213,7 +219,22 @@
       <h2 class="text-lg font-semibold mb-4 text-gray-700">
         Vamos continuar conectados
       </h2>
-      <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+      <div class="flex flex-col sm:flex-row justify-center items-center gap-4 flex-wrap">
+        <a
+          href="https://t.me/PAFCSv3_bot"
+          target="_blank"
+          class="
+            contact-button
+            text-white rounded-full font-bold text-lg shadow-lg
+            whitespace-nowrap inline-flex items-center
+            bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-600 hover:to-blue-700
+            px-4 sm:px-6 md:px-8
+            py-2 sm:py-3 md:py-4
+          "
+        >
+          <i class="fab fa-telegram-plane mr-2" aria-hidden="true"></i>
+          Testar Bot no Telegram
+        </a>
         <a
           href="https://www.instagram.com/pafcsdatasolutions"
           target="_blank"
