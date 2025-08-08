@@ -213,7 +213,7 @@
       Compartilhe sua Opinião
     </a>
 
-    <p class="footer mt-8">Agradecemos imensamente sua colaboração!</p>
+    <p class="footer mt-8">Os dados da pesquisa NUNCA serão expostos! Agradecemos imensamente sua colaboração!</p>
 
     <div class="mt-10 text-center">
       <h2 class="text-lg font-semibold mb-4 text-gray-700">
