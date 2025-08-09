@@ -35,6 +35,12 @@
       width: 100%; height: 100%;
       z-index: 0;
     }
+    
+    /* ADIÇÃO CIRÚRGICA: Estilo para tornar os círculos clicáveis e com transição suave de cor */
+    .background-svg circle {
+      cursor: pointer;
+      transition: fill 0.5s ease;
+    }
 
     .container {
       position: relative;
@@ -85,7 +91,6 @@
       box-shadow: 0 8px 20px rgba(0,0,0,0.2);
     }
 
-    /* estilo para os botões de contato */
     .contact-button {
       transition: all 0.3s ease-in-out;
     }
@@ -93,7 +98,6 @@
        transform: translatey(-2px);
        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
     }
-
 
     .logo-container {
       display: flex;
@@ -289,32 +293,89 @@
     const svg = document.querySelector('svg.background-svg');
     const circles = Array.from(svg.querySelectorAll('circle'));
 
-    const viewbox = svg.viewBox.baseVal;
-
-    const initialPositions = [
-      { x: 280,  y: 280 },
-      { x: 1160, y: 280 },
-      { x: 280,  y: 520 },
-      { x: 1160, y: 520 }
+    const colorAndSoundData = [
+      { color: '#1e3a8a', sound: new Audio('sounds/fa-note-sound.mp3') },
+      { color: '#ef4444', sound: new Audio('sounds/note-c-is-stretched.mp3') },
+      { color: '#facc15', sound: new Audio('sounds/note-d-is-stretched.mp3') },
+      { color: '#15803d', sound: new Audio('sounds/sol-extended.mp3') }
     ];
-    const initialRadii = [280, 280, 280, 280];
 
+    function shuffle(array) {
+      const shuffledArray = [...array];
+      for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+      }
+      return shuffledArray;
+    }
+
+    function handleInteraction(event) {
+      const clickedCircleElement = event.target;
+
+      // Encontra o objeto de dados correspondente à bolinha que foi clicada.
+      const clickedCircleData = data.find(d => d.el === clickedCircleElement);
+
+      // Se encontrou, calcula um novo raio aleatório dentro dos limites min/max.
+      if (clickedCircleData) {
+        const newRadius = Math.random() * (clickedCircleData.rmax - clickedCircleData.rmin) + clickedCircleData.rmin;
+        // Atualiza o raio no objeto de dados. A função animate() aplicará a mudança.
+        clickedCircleData.r = newRadius;
+      }
+
+      // Toca o som correspondente à cor atual do círculo
+      const currentColor = clickedCircleElement.getAttribute('fill');
+      const currentSoundData = colorAndSoundData.find(data => data.color === currentColor);
+      if (currentSoundData) {
+        currentSoundData.sound.currentTime = 0;
+        currentSoundData.sound.play().catch(e => console.error("Erro ao tocar áudio:", e));
+      }
+
+      // Embaralha as cores e aplica a todos os círculos
+      const newColorOrder = shuffle(colorAndSoundData);
+      circles.forEach((circle, index) => {
+        circle.setAttribute('fill', newColorOrder[index].color);
+      });
+    }
+
+    const viewbox = svg.viewBox.baseVal;
+    const initialRadii = [280, 280, 280, 280];
     let data = [];
+
+    let visibleBounds;
+    const point = svg.createSVGPoint();
+
+    // Função para calcular os limites visíveis do SVG, considerando o aspect ratio
+    function updateVisibleBounds() {
+      const ctm = svg.getScreenCTM().inverse();
+      point.x = 0; point.y = 0;
+      const topLeft = point.matrixTransform(ctm);
+      point.x = window.innerWidth; point.y = window.innerHeight;
+      const bottomRight = point.matrixTransform(ctm);
+      visibleBounds = {
+        x: topLeft.x, y: topLeft.y,
+        width: bottomRight.x - topLeft.x, height: bottomRight.y - topLeft.y
+      };
+    }
+
+    updateVisibleBounds();
+    window.addEventListener('resize', updateVisibleBounds);
 
     function setupAnimation() {
       data = circles.map((c, i) => {
-        const initR = initialRadii[i] * 0.6; 
+        // Adiciona o listener de clique para a nova interatividade
+        c.addEventListener('click', handleInteraction);
+
+        const initR = initialRadii[i] * 0.3; // Raio inicial menor
 
         return {
           el: c,
-          x: initialPositions[i].x,
-          y: initialPositions[i].y,
+          x: viewbox.width / 2,   // Posição inicial no centro
+          y: viewbox.height / 2,  // Posição inicial no centro
           r: initR,
           vx: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
           vy: (Math.random() * 0.5 + 0.2) * (Math.random() < 0.5 ? -1 : 1),
           vr: (Math.random() * 0.03 + 0.015) * (Math.random() < 0.5 ? -1 : 1),
-          rmin: initR * 0.40, // Encolhe até 40% do tamanho
-          rmax: initR * 1.30  // Cresce até 130% do tamanho
+          rmin: initR * 0.40, rmax: initR * 1.30
         };
       });
     }
@@ -327,12 +388,23 @@
         d.y += d.vy;
         d.r += d.vr;
 
-        if (d.x - d.r < viewbox.x || d.x + d.r > viewbox.width) {
+        // Nova lógica de colisão, mais precisa e adaptável ao tamanho da janela
+        if (d.x + d.r > visibleBounds.x + visibleBounds.width) {
           d.vx *= -1;
+          d.x = visibleBounds.x + visibleBounds.width - d.r;
+        } else if (d.x - d.r < visibleBounds.x) {
+          d.vx *= -1;
+          d.x = visibleBounds.x + d.r;
         }
-        if (d.y - d.r < viewbox.y || d.y + d.r > viewbox.height) {
+
+        if (d.y + d.r > visibleBounds.y + visibleBounds.height) {
           d.vy *= -1;
+          d.y = visibleBounds.y + visibleBounds.height - d.r;
+        } else if (d.y - d.r < visibleBounds.y) {
+          d.vy *= -1;
+          d.y = visibleBounds.y + d.r;
         }
+
         if (d.r < d.rmin || d.r > d.rmax) {
           d.vr *= -1;
         }
@@ -341,7 +413,6 @@
         d.el.setAttribute('cy', d.y);
         d.el.setAttribute('r', d.r);
       });
-
       requestAnimationFrame(animate);
     }
 
